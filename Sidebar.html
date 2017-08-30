@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base target="_top">
+  <!-- link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css" -->
+  <link rel="stylesheet" type="text/css" href="https://picatic.global.ssl.fastly.net/v1.1.274/css/app.min.css">
+  <link rel="stylesheet" type="text/css" href="https://picatic.global.ssl.fastly.net/v1.1.274/css/picatic.min.css">
+  <link rel="stylesheet" type="text/css" href="https://picatic.global.ssl.fastly.net/v1.1.274/spa/marketing/css/app.min.css">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <style>
+    .branding-below {
+      bottom: 56px;
+      top: 0;
+    }
+
+    .branding-text {
+      left: 7px;
+      position: relative;
+      top: 3px;
+    }
+
+    .col-contain {
+      overflow: hidden;
+    }
+
+    .col-one {
+      float: left;
+      width: 50%;
+    }
+
+    .col-two {
+      float: right;
+      width: 50%;
+    }
+
+    .logo {
+      vertical-align: middle;
+    }
+
+    .width-100 {
+      width: 100%;
+    }
+
+    .nowrap {
+      white-space: nowrap;
+    }
+
+    #rcorners1 {
+      border-radius: 5px;
+      background: #34CB7B;
+      padding: 5px;
+      width: 250px;
+      height: 30px;
+    }
+
+    #rcorners2 {
+      border-radius: 5px;
+      background: #FF4632;
+      padding: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="sidebar branding-below">
+    <div class="block form-group">
+      <label for="auth"><b>Authentication!</b> Copy your API key here.</label>
+      <input type="text" class="width-100 form-control" id="apikey">(
+      <a href="https://www.picatic.com/manage/users/applications">Find your Picatic API key here</a>)
+    </div>
+
+    <div class="block" id="button-bar">
+      <button class="btn btn-outline-teal btn-small btn-block btn-outline" id="Authentication" onclick="getUser();getUser1()">Authenticate</button>
+    </div>
+
+    <br />
+
+    <ul class="nav nav-tabs">
+      <li class="active"><a data-toggle="tab" href="#create">Create</a></li>
+      <li><a data-toggle="tab" href="#manage">Manage</a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div id="create" class="tab-pane fade in active">
+        <br />
+        <div class="block form-group">
+          <label for="step1">Step 1: Choose from your live events</label>
+          <select id="eventList" class="js-basic-single width-100" onchange="getTicket()">>
+             <option>Your events</option>
+          </select>
+        </div>
+
+        <div class="block form-group">
+          <label for="step2">Step 2: Select ticket (Load in seconds)</label>
+          <br />
+          <select id="optionList" class="js-example-basic-multiple width-100" multiple="multiple">
+           <option></option>
+          </select>
+        </div>
+
+        <div class="block form-group">
+          <label for="step3">Step 3: Times can be used (0 is unlimited)</label>
+          <input type="number" step="any" class="form-control" id="quantity" value="1" min="1" style="width: 40%">
+        </div>
+
+        <div class="block form-group">
+          <label for="step4">Step 4: Set discount</label>
+          <br />
+          <div class="block col-contain">
+            <input type="number" class="form-control  col-one" id="discountprice" value="0" min="0" style="width: 40%">
+            <select id="discountmethod" class="js-example-basic-single col-two" style="width: 40%" style="float: right">
+              <option value="percentage">Percent off</option>
+              <option value="amount">Discounted $ price</option>
+            </select>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="block form-group">
+          <label class="checkbox-inline">
+       <input type="checkbox" ng-model="showStatusSettings" class="Status-settings" aria-invalid="false" onchange="showSettings()">
+       Show Advanced Status Settings
+     </label>
+        </div>
+
+        <div class="s-settings" style="display: none;">
+          <div class="block">
+            <label for="step5">Select code stauts. </label>
+            <select id="status" class="js-example-basic-single" style="width: 30%">
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+        <br />
+        <div class="block form-group">
+          <label for="choosecodename">Last step: <b>IMPORTANT!<br />
+          On sheet, select code names</b></label>
+        </div>
+
+        <div class="block" id="button-bar">
+          <button class="btn btn-small btn-teal btn-block" id="Create" onclick="createPromo()">Create</button>
+        </div>
+        <br />
+        <div class="sstatus form-group" id="rcorners1" style="display: none;">
+          <font color="white">Success! Promo codes created.</font>
+        </div>
+        <div class="fstatus form-group" id="rcorners2" style="display: none;">
+          <font class="error" color="white"></font>
+        </div>
+      </div>
+
+      <div id="manage" class="tab-pane fade">
+        <br />
+        <div class="block form-group">
+          <label for="managestep1">Step 1: Choose from </label>
+          <select id="eventStatus" class="js-example-basic-single" style="width: 40%" onchange="getUser1()">
+             <option value="active">live events</option>
+             <option value="closed">closed events</option>
+             <option value="draft">draft events</option>
+             <option value="archived">archived events</option>
+          </select>
+          <br />
+          <br />
+          <select id="eventList1" class="js-basic-single" style="width: 100%">
+             <option>Your events</option>
+          </select>
+        </div>
+
+        <div class="block" id="button-bar">
+          <button class="btn btn-small btn-teal btn-block" id="Manage" onclick="getTicketforPromo()">Get Promocodes On Sheet</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <br />
+
+  <div class="sidebar bottom">
+    <img alt="Add-on logo" class="logo" src="http://picatic.com/favicon.ico" width="27" height="27">
+    <span class="gray branding-text">Picatic API</span>
+  </div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+  <script type="text/javascript">
+    $(".js-example-basic-multiple").select2();
+  </script>
+
+  <script type="text/javascript">
+    $(".js-basic-single").select2();
+  </script>
+
+  <script type="text/javascript">
+    $(".js-example-basic-single").select2({
+      minimumResultsForSearch: Infinity
+    });
+  </script>
+
+  <script>
+    function successstatus() {
+      $(".sstatus").show();
+      $(".fstatus").hide();
+    }
+
+    function failstatus(status) {
+      $(".sstatus").hide();
+      $(".fstatus").show();
+      $(".error").text(status)
+    }
+
+    function showSettings() {
+      if ($('.Status-settings').is(":checked"))
+        $(".s-settings").show();
+      else
+        $(".s-settings").hide();
+    }
+
+    function getUser() {
+      var apikey = $('#apikey').val()
+      var eventStatus = "active"
+      if (apikey != '') {
+        google.script.run
+          .withSuccessHandler(getEventoptions)
+          .getUser(apikey, eventStatus)
+      }
+    }
+
+    function getUser1() {
+      var apikey = $('#apikey').val()
+      var eventStatus = $('#eventStatus').val()
+      if (apikey != '') {
+        google.script.run
+          .withSuccessHandler(getEventoptions1)
+          .getUser(apikey, eventStatus)
+      }
+    }
+
+    function getEventoptions(eventoption) {
+      var list = $('#eventList');
+      list.empty();
+      for (var i = 0; i < eventoption.length; i++) {
+        list.append('<option value="' + eventoption[i].value + '">' + eventoption[i].text + '</option>');
+      }
+      getfirsteventTicket(eventoption[0].value)
+    }
+
+    function getEventoptions1(eventoption) {
+      var list = $('#eventList1')
+      list.empty();
+      for (var i = 0; i < eventoption.length; i++) {
+        list.append('<option value="' + eventoption[i].value + '">' + eventoption[i].text + '</option>');
+      }
+    }
+
+    function getfirsteventTicket(eventid) {
+      var eventid = eventid
+      var apikey = $('#apikey').val()
+      if (eventid != '') {
+        google.script.run
+          .withSuccessHandler(getOptions)
+          .Gettickets(eventid, apikey)
+      }
+    }
+
+    function getTicket() {
+      var eventid = $('#eventList').val()
+      var apikey = $('#apikey').val()
+      if (eventid != '') {
+        google.script.run
+          .withSuccessHandler(getOptions)
+          .Gettickets(eventid, apikey)
+      }
+    }
+
+    function getOptions(option) {
+      var list = $('#optionList');
+      list.empty();
+      for (var i = 0; i < option.length; i++) {
+        list.append('<option value="' + option[i].value + '">' + option[i].text + '</option>');
+      }
+    }
+
+    function createPromo() {
+      var quantity = Number($('#quantity').val())
+      var discountprice = Number($('#discountprice').val())
+      var status = $('#status').val()
+      var apikey = $('#apikey').val()
+      var ticketids = $('#optionList').val()
+      var discountmethod = $('#discountmethod').val()
+      for (var i = 0; i < ticketids.length; i++) {
+        var ticketid = Number(ticketids[i])
+        var settings = {
+          'ticketid': ticketid,
+          'quantity': quantity,
+          'discountprice': discountprice,
+          'status': status
+        };
+        google.script.run
+          .withSuccessHandler(successstatus)
+          .withFailureHandler(failstatus)
+          .CreatePromoCode(quantity, ticketid, discountprice, status, apikey, discountmethod)
+      }
+    }
+
+    function getTicketforPromo() {
+      var eventid = $('#eventList1').val()
+      var apikey = $('#apikey').val()
+      google.script.run
+        .withSuccessHandler(getPromo)
+        .Gettickets(eventid, apikey)
+    }
+
+    function getPromo(option) {
+      var apikey = $('#apikey').val()
+      var eventname = $('#eventList1 option:selected').text()
+      var eventid = $('#eventList1').val()
+      google.script.run
+        .getPromo(option, apikey, eventname, eventid)
+    }
+  </script>
+</body>
+
+</html>
