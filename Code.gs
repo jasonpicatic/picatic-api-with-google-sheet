@@ -1,8 +1,6 @@
 function onOpen() {
     SpreadsheetApp.getUi().createAddonMenu()
         .addItem('Promo Codes', 'showSidebar')
-        .addItem('Add attendees to your event', 'showSidebar2')
-        .addItem('Find Event Information', 'showSidebar3')
         .addToUi();
 }
 
