@@ -3,55 +3,37 @@
 
 <head>
   <base target="_top">
-  <!-- link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css" -->
   <link rel="stylesheet" type="text/css" href="https://picatic.global.ssl.fastly.net/v1.1.274/css/app.min.css">
   <link rel="stylesheet" type="text/css" href="https://picatic.global.ssl.fastly.net/v1.1.274/css/picatic.min.css">
   <link rel="stylesheet" type="text/css" href="https://picatic.global.ssl.fastly.net/v1.1.274/spa/marketing/css/app.min.css">
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <style>
-    .branding-below {
-      bottom: 56px;
-      top: 0;
-    }
-
-    .branding-text {
-      left: 7px;
-      position: relative;
-      top: 3px;
-    }
-
     .col-contain {
       overflow: hidden;
     }
-
     .col-one {
       float: left;
       width: 50%;
     }
-
     .col-two {
       float: right;
       width: 50%;
     }
-
     .logo {
       vertical-align: middle;
     }
-
     .width-100 {
       width: 100%;
     }
-
     .nowrap {
       white-space: nowrap;
     }
-
     #rcorners1 {
       border-radius: 5px;
       background: #34CB7B;
@@ -59,7 +41,6 @@
       width: 250px;
       height: 30px;
     }
-
     #rcorners2 {
       border-radius: 5px;
       background: #FF4632;
@@ -214,20 +195,11 @@
       $(".sstatus").show();
       $(".fstatus").hide();
     }
-
     function failstatus(status) {
       $(".sstatus").hide();
       $(".fstatus").show();
       $(".error").text(status)
     }
-
-    function showSettings() {
-      if ($('.Status-settings').is(":checked"))
-        $(".s-settings").show();
-      else
-        $(".s-settings").hide();
-    }
-
     function getUser() {
       var apikey = $('#apikey').val()
       var eventStatus = "active"
@@ -237,7 +209,6 @@
           .getUser(apikey, eventStatus)
       }
     }
-
     function getUser1() {
       var apikey = $('#apikey').val()
       var eventStatus = $('#eventStatus').val()
@@ -247,7 +218,6 @@
           .getUser(apikey, eventStatus)
       }
     }
-
     function getEventoptions(eventoption) {
       var list = $('#eventList');
       list.empty();
@@ -256,7 +226,6 @@
       }
       getfirsteventTicket(eventoption[0].value)
     }
-
     function getEventoptions1(eventoption) {
       var list = $('#eventList1')
       list.empty();
@@ -264,7 +233,6 @@
         list.append('<option value="' + eventoption[i].value + '">' + eventoption[i].text + '</option>');
       }
     }
-
     function getfirsteventTicket(eventid) {
       var eventid = eventid
       var apikey = $('#apikey').val()
@@ -274,7 +242,6 @@
           .Gettickets(eventid, apikey)
       }
     }
-
     function getTicket() {
       var eventid = $('#eventList').val()
       var apikey = $('#apikey').val()
@@ -284,7 +251,6 @@
           .Gettickets(eventid, apikey)
       }
     }
-
     function getOptions(option) {
       var list = $('#optionList');
       list.empty();
@@ -292,7 +258,6 @@
         list.append('<option value="' + option[i].value + '">' + option[i].text + '</option>');
       }
     }
-
     function createPromo() {
       var quantity = Number($('#quantity').val())
       var discountprice = Number($('#discountprice').val())
@@ -314,7 +279,6 @@
           .CreatePromoCode(quantity, ticketid, discountprice, status, apikey, discountmethod)
       }
     }
-
     function getTicketforPromo() {
       var eventid = $('#eventList1').val()
       var apikey = $('#apikey').val()
@@ -322,7 +286,6 @@
         .withSuccessHandler(getPromo)
         .Gettickets(eventid, apikey)
     }
-
     function getPromo(option) {
       var apikey = $('#apikey').val()
       var eventname = $('#eventList1 option:selected').text()
